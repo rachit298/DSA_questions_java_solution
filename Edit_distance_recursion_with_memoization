@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+
+		// using memoization
+		// TC - O(n*m)
+		// SC - O(n*m) dp size + O(n+m) aux. stack size
+
+		String s1 = "geak";
+		String s2 = "gee";
+
+		int n = s1.length();
+		int m = s2.length();
+
+		int[][] dp = new int[n+1][m+1];
+
+		for(int i = 0; i < n+1; i++){
+			for(int j = 0; j < m+1; j++){
+				dp[i][j] = -1;
+			}
+		}
+
+		int operations = totalOperations(s1, n - 1, s2, m - 1, dp);
+
+		System.out.println("Total operations to changes first string to second string are: " + operations);
+
+	}
+
+	public static int totalOperations(String s1, int s1Length, String s2, int s2Length, int[][] dp) {
+
+		if (s1.length() == 0) {
+			return s2.length();
+		} else if (s2.length() == 0) {
+			return s1.length();
+		}
+
+		if(dp[s1Length][s2Length] != -1){
+			return dp[s1Length][s2Length];
+		}
+
+		if(s1.charAt(s1Length) == s2.charAt(s2Length)){
+			String str1 = s1.substring(0, s1Length);
+			String str2 = s2.substring(0, s2Length);
+			return totalOperations(str1, str1.length()-1, str2, str2.length()-1, dp);
+		}
+		else{
+			char ch = s2.charAt(s2Length);
+			int op1 = 1 + totalOperations(s1+ch, s1Length+1, s2, s2Length, dp);
+			int op2 = 1 + totalOperations(s1.substring(0, s1Length), s1Length-1, s2, s2Length, dp);
+			int op3 = 1 + totalOperations(s1.substring(0, s1Length)+ch, s1Length, s2, s2Length, dp);
+			return dp[s1Length][s2Length] = Math.min(Math.min(op1, op2), op3);
+		}
+	}
+}
