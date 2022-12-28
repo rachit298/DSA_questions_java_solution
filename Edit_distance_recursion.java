@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) {
 
-		// TC - O()
 		String s1 = "ros";
 		String s2 = "horse";
 
