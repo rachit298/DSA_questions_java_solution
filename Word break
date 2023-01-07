@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) {
+		
+		String A = "ilikesamsung";
+		
+		ArrayList<String> B = new ArrayList<>(List.of("i", "like", "sam", "sung", "samsung", "mobile", "ice", "cream",
+		"icecream", "man", "go", "mango"));
+
+		int[] dp = new int[A.length()];
+
+		for (int i = 0; i < dp.length; i++) {
+
+			for (int j = 0; j <= i; j++) {
+
+				String str = A.substring(j, i + 1);
+
+				if (B.contains(str)) {
+
+					if (j > 0) {
+						dp[i] += dp[j - 1];
+					} else {
+						dp[i] += 1;
+					}
+				}
+			}
+		}
+		// last index of dp we have total number
+		// of possible sentences formed value.
+		System.out.println("Total number of possible sentences formed are: " + dp[dp.length - 1]);
+	}
+}
